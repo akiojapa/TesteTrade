@@ -11,70 +11,36 @@ use Illuminate\Support\Facades\Auth;
 
 class CampeonatoController extends Controller
 {
-    public function index(Request $request) {
-
-        if(!Auth::check()) {
-            throw new AuthenticationException();
-        }
-       
-        $campeonato = Campeonato::all();
-        $mensagemSucesso = session('mensagem.sucesso');
-
-
-        return view('campeonato.index')->with('campeonato', $campeonato)->with('mensagemSucesso', $mensagemSucesso);
+    public function index()
+    {
+        $campeonatos = Campeonato::all();
+        return response()->json($campeonatos);
     }
 
-    public function create(){
-
-        $times = Time::all();
-
-        return view('campeonato.create', ['times' => $times]);
+    public function show($id)
+    {
+        $campeonato = Campeonato::find($id);
+        return response()->json($campeonato);
     }
 
-    public function store(CampeonatoFormRequest $request) {
-
-        // $nomeCampeonato = $request->input('nome');
-
-        // $serie = new Campeonato();
-        // $serie->nome = $nomeCampeonato;
-        // $serie->save();
-        
-
+    public function store(Request $request)
+    {
         $campeonato = Campeonato::create($request->all());
-
-        // $request->session()->flash('mensagem.sucesso', "Série {$serie->nome} adicionada com sucesso!");
-
-        // return redirect()->route('campeonato.index');
-
-        return to_route('campeonato.index')->with('mensagem.sucesso', "Série {$campeonato->nome} adicionada com sucesso!");
-
+        return response()->json($campeonato, 201);
     }
 
-    public function destroy(Campeonato $campeonato) {
+    public function update(Request $request, $id)
+    {
+        $campeonato = Campeonato::findOrFail($id);
+        $campeonato->update($request->all());
+        return response()->json($campeonato, 200);
+    }
 
+    public function destroy($id)
+    {
+        $campeonato = Campeonato::findOrFail($id);
         $campeonato->delete();
-
-        // Campeonato::destroy($request->campeonato);
-
-        return to_route('campeonato.index')->with('mensagem.sucesso', "Série {$campeonato->nome} removida com sucesso!");
-
-    }
-
-    public function edit(Campeonato $campeonato) {
-
-        
-
-        return view('campeonato.edit')->with('campeonato', $campeonato);
-
-    }
-
-    public function update(Campeonato $campeonato, CampeonatoFormRequest $request) {
-
-        $campeonato->fill($request->all());
-        $campeonato->save();
-
-        return to_route('campeonato.index')->with('mensagem.sucesso', "Série {$campeonato->nome} alterada com sucesso!");
-        
+        return response()->json(null, 204);
     }
 
 

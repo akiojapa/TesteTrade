@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CampeonatoController;
 use App\Http\Controllers\UsersController;
+use App\Models\Campeonato;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,31 +16,31 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return redirect('/campeonato');
-})->middleware(\App\Http\Middleware\Autenticador::class); 
+// Route::get('/', function () {
+//     return redirect('/campeonato');
+// })->middleware(\App\Http\Middleware\Autenticador::class); 
 
-Route::resource('/campeonato', CampeonatoController::class)
-->except('show');
+// Route::resource('/campeonato', CampeonatoController::class)
+// ->except('show');
 
-Route::delete('/campeonato/destroy/{campeonato}', [CampeonatoController::class, 'destroy'])->name('campeonato.destroy');
+// Route::delete('/campeonato/destroy/{campeonato}', [CampeonatoController::class, 'destroy'])->name('campeonato.destroy');
 
-// Route::controller(CampeonatoController::class)->group(function() {
+// // Route::controller(CampeonatoController::class)->group(function() {
 
-//     Route::get('/campeonato', 'index')->name('campeonato.index');
-//     Route::get('/campeonato/criar', 'create')->name('campeonato.create');
-//     Route::post('/campeonato/salvar', 'store')->name('campeonato.store');
+// //     Route::get('/campeonato', 'index')->name('campeonato.index');
+// //     Route::get('/campeonato/criar', 'create')->name('campeonato.create');
+// //     Route::post('/campeonato/salvar', 'store')->name('campeonato.store');
 
-// });
-
-
-Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])->name('login');
-Route::post('/login', [App\Http\Controllers\LoginController::class, 'store'])->name('signin');
-Route::get('/logout', [UsersController::class, 'destroy'])->name('logout');
+// // });
 
 
-Route::get('/register', [UsersController::class, 'create'])->name('users.create');
-Route::post('/register', [UsersController::class, 'store'])->name('users.store');
+// Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])->name('login');
+// Route::post('/login', [App\Http\Controllers\LoginController::class, 'store'])->name('signin');
+// Route::get('/logout', [UsersController::class, 'destroy'])->name('logout');
+
+
+// Route::get('/register', [UsersController::class, 'create'])->name('users.create');
+// Route::post('/register', [UsersController::class, 'store'])->name('users.store');
 
 
 

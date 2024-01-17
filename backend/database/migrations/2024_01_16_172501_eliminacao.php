@@ -12,11 +12,17 @@ return new class extends Migration
     public function up(): void
     {
 
-        Schema::create('eliminacao', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('campeonato_id');
-            $table->foreignId('time_eliminado');
-            $table->unsignedBigInteger('posicao_eliminacao');
+        Schema::create('eliminacoes', function (Blueprint $table) {
+            $table->id('ID_Eliminacao');
+            $table->unsignedBigInteger('ID_Time_Eliminado');
+            $table->unsignedBigInteger('ID_Jogo');
+            $table->string('Posicao_Eliminacao');
+            $table->unsignedBigInteger('ID_Campeonato');
+            $table->timestamps();
+
+            $table->foreign('ID_Time_Eliminado')->references('ID_Time')->on('times');
+            $table->foreign('ID_Jogo')->references('ID_Jogo')->on('jogos');
+            $table->foreign('ID_Campeonato')->references('ID_Campeonato')->on('campeonatos');
         });
         
     }
@@ -26,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('eliminacao');
+        //
     }
 };

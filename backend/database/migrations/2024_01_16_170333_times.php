@@ -12,13 +12,15 @@ return new class extends Migration
     public function up(): void
     {
             
-            Schema::create('times', function (Blueprint $table) {
-                $table->id();
-                $table->foreignId('jogo_id');
-                $table->string('nome');
-                $table->timestamp('data_inscricao');
-                $table->timestamps();
-            });
+        Schema::create('times', function (Blueprint $table) {
+            $table->id('ID_Time');
+            $table->string('Nome_Time');
+            $table->string('Pais'); 
+            $table->string('Liga');
+            $table->string('Temporada'); 
+            $table->date('Data_Inscricao');
+            $table->timestamps();
+        });
     }
 
     /**

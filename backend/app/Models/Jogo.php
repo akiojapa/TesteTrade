@@ -7,21 +7,30 @@ use Illuminate\Database\Eloquent\Model;
 
 class Jogo extends Model
 {
-    use HasFactory;
+    protected $table = 'jogos';
+    protected $primaryKey = 'ID_Jogo';
+    public $timestamps = false;
 
-    public function campeonato() {
-        return $this->belongsTo(Campeonato::class);
+    public function timeCasa()
+    {
+        return $this->belongsTo(Time::class, 'ID_Time_Casa');
     }
 
-    public function times() {
-        return $this->hasMany(Time::class, 'jogo_id');
-    }
-    
-    public function eliminacao() {
-        return $this->hasOne(Eliminacao::class, 'jogo_id');
+    public function timeVisitante()
+    {
+        return $this->belongsTo(Time::class, 'ID_Time_Visitante');
     }
 
-    
+    public function eliminacao()
+    {
+        return $this->hasOne(Eliminacao::class, 'ID_Jogo');
+    }
+
+    public function campeonato()
+    {
+        return $this->belongsTo(Campeonato::class, 'ID_Campeonato');
+    }
 }
+
     
 

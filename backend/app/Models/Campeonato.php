@@ -12,13 +12,23 @@ class Campeonato extends Model
     protected $fillable = ['nome'];
     
     
-    public function jogos() {
-        
-        return $this->hasMany(Jogo::class, 'campeonato_id');
+    protected $table = 'campeonatos';
+    protected $primaryKey = 'ID_Campeonato';
+    public $timestamps = false;
+
+    public function jogos()
+    {
+        return $this->hasMany(Jogo::class, 'ID_Campeonato');
     }
-    
-    public function eliminacoes() {
-        return $this->hasManyThrough(Eliminacao::class, Jogo::class, 'campeonato_id', 'jogo_id');
+
+    public function eliminacoes()
+    {
+        return $this->hasMany(Eliminacao::class, 'ID_Campeonato');
+    }
+
+    public function times()
+    {
+        return $this->belongsToMany(Time::class, 'times_campeonatos', 'ID_Campeonato', 'ID_Time');
     }
 
     protected static function booted(){
