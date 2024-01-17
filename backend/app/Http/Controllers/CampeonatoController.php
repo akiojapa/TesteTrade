@@ -13,7 +13,7 @@ class CampeonatoController extends Controller
 {
     public function index()
     {
-        $campeonatos = Campeonato::all();
+        $campeonatos = Campeonato::with(['jogos', 'jogos.timeCasa', 'jogos.timeVisitante', 'eliminacoes', 'eliminacoes.timeEliminado'])->get();
         return response()->json($campeonatos);
     }
 
@@ -43,5 +43,11 @@ class CampeonatoController extends Controller
         return response()->json(null, 204);
     }
 
+    public function getDetails($id){
+
+        $campeonato = Campeonato::with('jogos.time', 'eliminacoes')->find($id);
+        return response()->json($campeonato);
+
+    }
 
 }

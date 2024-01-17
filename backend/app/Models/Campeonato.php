@@ -8,33 +8,31 @@ use Illuminate\Database\Eloquent\Model;
 
 class Campeonato extends Model
 {
-    use HasFactory;
-    protected $fillable = ['nome'];
-    
+    use HasFactory;    
     
     protected $table = 'campeonatos';
-    protected $primaryKey = 'ID_Campeonato';
+    protected $primaryKey = 'id_campeonato';
     public $timestamps = false;
 
     public function jogos()
     {
-        return $this->hasMany(Jogo::class, 'ID_Campeonato');
+        return $this->hasMany(Jogo::class, 'id_campeonato');
     }
 
     public function eliminacoes()
     {
-        return $this->hasMany(Eliminacao::class, 'ID_Campeonato');
+        return $this->hasMany(Eliminacao::class, 'id_campeonato');
     }
 
     public function times()
     {
-        return $this->belongsToMany(Time::class, 'times_campeonatos', 'ID_Campeonato', 'ID_Time');
+        return $this->belongsToMany(Time::class, 'times_campeonatos', 'id_campeonato', 'id_time');
     }
 
     protected static function booted(){
 
         self::addGlobalScope('ordered', function (Builder $queryBuilder) {
-            $queryBuilder->orderBy('nome', 'desc');
+            $queryBuilder->orderBy('nome_campeonato', 'desc');
         });
 
     }

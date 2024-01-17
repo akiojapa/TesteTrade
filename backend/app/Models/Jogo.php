@@ -8,27 +8,27 @@ use Illuminate\Database\Eloquent\Model;
 class Jogo extends Model
 {
     protected $table = 'jogos';
-    protected $primaryKey = 'ID_Jogo';
+    protected $primaryKey = 'id_Jogo';
     public $timestamps = false;
 
     public function timeCasa()
     {
-        return $this->belongsTo(Time::class, 'ID_Time_Casa');
+        return $this->belongsTo(Time::class, 'id_time_casa');
     }
 
     public function timeVisitante()
     {
-        return $this->belongsTo(Time::class, 'ID_Time_Visitante');
+        return $this->belongsTo(Time::class, 'id_time_visitante');
     }
 
     public function eliminacao()
     {
-        return $this->hasOne(Eliminacao::class, 'ID_Jogo');
+        return $this->hasOne(Eliminacao::class, 'id_jogo');
     }
 
     public function campeonato()
     {
-        return $this->belongsTo(Campeonato::class, 'ID_Campeonato');
+        return $this->belongsTo(Campeonato::class, 'id_campeonato');
     }
 }
 

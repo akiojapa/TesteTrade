@@ -8,21 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Eliminacao extends Model
 {
     protected $table = 'eliminacoes';
-    protected $primaryKey = 'ID_Eliminacao';
+    protected $primaryKey = 'id_eliminacao';
     public $timestamps = false;
 
     public function timeEliminado()
     {
-        return $this->belongsTo(Time::class, 'ID_Time_Eliminado');
+        return $this->belongsTo(Time::class, 'id_time_eliminado');
     }
 
     public function jogo()
     {
-        return $this->belongsTo(Jogo::class, 'ID_Jogo');
+        return $this->belongsTo(Jogo::class, 'id_jogo');
     }
 
     public function campeonato()
     {
-        return $this->belongsTo(Campeonato::class, 'ID_Campeonato');
+        return $this->belongsTo(Campeonato::class, 'id_campeonato');
     }
 }

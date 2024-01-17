@@ -13,19 +13,19 @@ return new class extends Migration
     {
 
         Schema::create('jogos', function (Blueprint $table) {
-            $table->id('ID_Jogo');
-            $table->unsignedBigInteger('ID_Time_Casa');
-            $table->unsignedBigInteger('ID_Time_Visitante');
-            $table->integer('Gols_Time_Casa');
-            $table->integer('Gols_Time_Visitante');
-            $table->string('Fase');
-            $table->date('Data_Jogo');
-            $table->unsignedBigInteger('ID_Campeonato');
+            $table->id('id_jogo');
+            $table->unsignedBigInteger('id_time_casa');
+            $table->unsignedBigInteger('id_time_visitante');
+            $table->integer('gols_time_casa');
+            $table->integer('gols_time_visitante');
+            $table->string('fase');
+            $table->date('data_jogo');
+            $table->unsignedBigInteger('id_campeonato');
             $table->timestamps();
 
-            $table->foreign('ID_Time_Casa')->references('ID_Time')->on('times');
-            $table->foreign('ID_Time_Visitante')->references('ID_Time')->on('times');
-            $table->foreign('ID_Campeonato')->references('ID_Campeonato')->on('campeonatos');
+            $table->foreign('id_time_casa')->references('id_time')->on('times');
+            $table->foreign('id_time_visitante')->references('id_time')->on('times');
+            $table->foreign('id_campeonato')->references('id_campeonato')->on('campeonatos');
         });
     
 

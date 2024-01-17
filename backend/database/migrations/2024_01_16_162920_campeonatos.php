@@ -12,9 +12,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('campeonatos', function (Blueprint $table) {
-            $table->id('ID_Campeonato');
-            $table->string('Nome_Campeonato');
-            $table->year('Ano_Campeonato');
+            $table->id('id_campeonato');
+            $table->string('nome_campeonato');
+            $table->year('ano_campeonato');
             $table->timestamps();
         });
     }

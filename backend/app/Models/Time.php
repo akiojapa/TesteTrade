@@ -8,21 +8,21 @@ use Illuminate\Database\Eloquent\Model;
 class Time extends Model
 {
     protected $table = 'times';
-    protected $primaryKey = 'ID_Time';
+    protected $primaryKey = 'id_time';
     public $timestamps = false;
 
     public function jogos()
     {
-        return $this->hasMany(Jogo::class, 'ID_Time_Casa')->orWhere('ID_Time_Visitante', $this->ID_Time);
+        return $this->hasMany(Jogo::class, 'id_time_casa')->orWhere('id_time_visitante', $this->ID_Time);
     }
 
     public function eliminacoes()
     {
-        return $this->hasMany(Eliminacao::class, 'ID_Time_Eliminado');
+        return $this->hasMany(Eliminacao::class, 'id_time_eliminado');
     }
 
     public function campeonatos()
     {
-        return $this->belongsToMany(Campeonato::class, 'times_campeonatos', 'ID_Time', 'ID_Campeonato');
+        return $this->belongsToMany(Campeonato::class, 'times_campeonatos', 'id_time', 'id_campeonato');
     }
 }

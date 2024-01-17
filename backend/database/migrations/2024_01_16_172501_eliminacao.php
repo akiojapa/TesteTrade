@@ -13,16 +13,16 @@ return new class extends Migration
     {
 
         Schema::create('eliminacoes', function (Blueprint $table) {
-            $table->id('ID_Eliminacao');
-            $table->unsignedBigInteger('ID_Time_Eliminado');
-            $table->unsignedBigInteger('ID_Jogo');
-            $table->string('Posicao_Eliminacao');
-            $table->unsignedBigInteger('ID_Campeonato');
+            $table->id('id_eliminacao');
+            $table->unsignedBigInteger('id_time_eliminado');
+            $table->unsignedBigInteger('id_jogo');
+            $table->string('posicao_eliminacao');
+            $table->unsignedBigInteger('id_campeonato');
             $table->timestamps();
 
-            $table->foreign('ID_Time_Eliminado')->references('ID_Time')->on('times');
-            $table->foreign('ID_Jogo')->references('ID_Jogo')->on('jogos');
-            $table->foreign('ID_Campeonato')->references('ID_Campeonato')->on('campeonatos');
+            $table->foreign('id_time_eliminado')->references('id_time')->on('times');
+            $table->foreign('id_jogo')->references('id_jogo')->on('jogos');
+            $table->foreign('id_campeonato')->references('id_campeonato')->on('campeonatos');
         });
         
     }

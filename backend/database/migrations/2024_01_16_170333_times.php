@@ -13,12 +13,12 @@ return new class extends Migration
     {
             
         Schema::create('times', function (Blueprint $table) {
-            $table->id('ID_Time');
-            $table->string('Nome_Time');
-            $table->string('Pais'); 
-            $table->string('Liga');
-            $table->string('Temporada'); 
-            $table->date('Data_Inscricao');
+            $table->id('id_time');
+            $table->string('nome_time');
+            $table->string('pais'); 
+            $table->string('liga');
+            $table->string('temporada'); 
+            $table->date('data_inscricao');
             $table->timestamps();
         });
     }

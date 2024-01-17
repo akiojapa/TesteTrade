@@ -1,0 +1,38 @@
+/* src/Sidebar.css */
+
+.sidebar {
+    display: flex;
+    flex-direction: column;
+    background-color: #e0e5ec; /* Tom azulado claro */
+    padding: 10px;
+    width: 100%;
+    height: 97.5vh; /* Altura de 100% da viewport */
+    overflow: auto; /* Adicione overflow para permitir rolagem interna se necessário */
+  }
+  
+  .sidebar-button {
+    margin-bottom: 10px;
+  }
+  
+  .sidebar-button a,
+  .sidebar-button button {
+    display: block;
+    width: 80%;
+    padding: 10px;
+    text-align: center;
+    background-color: #6495ed; /* Tom azul mais escuro */
+    color: #fff;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+  }
+  
+  .sidebar-button a:hover,
+  .sidebar-button button:hover {
+    background-color: #4169e1; /* Tom azul mais claro ao passar o mouse */
+  }
+  
+  .logout-button {
+    margin-top: auto; /* Coloca o botão Logout no final da Sidebar */
+  }
+  
