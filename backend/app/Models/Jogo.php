@@ -14,8 +14,13 @@ class Jogo extends Model
     }
 
     public function times() {
-        return $this->hasMany(Time::class);
+        return $this->hasMany(Time::class, 'jogo_id');
     }
+    
+    public function eliminacao() {
+        return $this->hasOne(Eliminacao::class, 'jogo_id');
+    }
+
     
 }
     

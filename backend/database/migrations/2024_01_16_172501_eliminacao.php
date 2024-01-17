@@ -9,13 +9,16 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('campeonatos', function (Blueprint $table) {
+
+        Schema::create('eliminacao', function (Blueprint $table) {
             $table->id();
-            $table->string('nome');
-            $table->timestamps();
+            $table->foreignId('campeonato_id');
+            $table->foreignId('time_eliminado');
+            $table->unsignedBigInteger('posicao_eliminacao');
         });
+        
     }
 
     /**
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('campeonatos');
+        Schema::dropIfExists('eliminacao');
     }
 };

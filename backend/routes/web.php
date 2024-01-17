@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CampeonatoController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,8 +16,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-}); 
+    return redirect('/campeonato');
+})->middleware(\App\Http\Middleware\Autenticador::class); 
 
 Route::resource('/campeonato', CampeonatoController::class)
 ->except('show');
@@ -30,5 +31,16 @@ Route::delete('/campeonato/destroy/{campeonato}', [CampeonatoController::class, 
 //     Route::post('/campeonato/salvar', 'store')->name('campeonato.store');
 
 // });
+
+
+Route::get('/login', [App\Http\Controllers\LoginController::class, 'index'])->name('login');
+Route::post('/login', [App\Http\Controllers\LoginController::class, 'store'])->name('signin');
+Route::get('/logout', [UsersController::class, 'destroy'])->name('logout');
+
+
+Route::get('/register', [UsersController::class, 'create'])->name('users.create');
+Route::post('/register', [UsersController::class, 'store'])->name('users.store');
+
+
 
 

@@ -4,13 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CampeonatoFormRequest;
 use App\Models\Campeonato;
+use App\Models\Time;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CampeonatoController extends Controller
 {
     public function index(Request $request) {
+
+        if(!Auth::check()) {
+            throw new AuthenticationException();
+        }
        
-        $campeonato = Campeonato::query()->orderBy('nome')->get();
+        $campeonato = Campeonato::all();
         $mensagemSucesso = session('mensagem.sucesso');
 
 
@@ -18,7 +25,10 @@ class CampeonatoController extends Controller
     }
 
     public function create(){
-        return view('campeonato.create');
+
+        $times = Time::all();
+
+        return view('campeonato.create', ['times' => $times]);
     }
 
     public function store(CampeonatoFormRequest $request) {
@@ -28,7 +38,7 @@ class CampeonatoController extends Controller
         // $serie = new Campeonato();
         // $serie->nome = $nomeCampeonato;
         // $serie->save();
-
+        
 
         $campeonato = Campeonato::create($request->all());
 
@@ -51,6 +61,8 @@ class CampeonatoController extends Controller
     }
 
     public function edit(Campeonato $campeonato) {
+
+        
 
         return view('campeonato.edit')->with('campeonato', $campeonato);
 
