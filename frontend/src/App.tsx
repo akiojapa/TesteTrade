@@ -1,26 +1,29 @@
-// src/App.tsx
+// Seu arquivo principal onde define as rotas
 
-import React from 'react';
 import './App.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Sidebar from './components/sidebar/Sidebar';
 import Historico from './components/sidebar/pages/historico/Historico';
 import Campeonato from './components/sidebar/pages/campeonato/Campeonato';
+import Login from './components/sidebar/pages/login/Login';
+import PrivateRoute from './components/PrivateRoute';
+import { AuthProvider } from './context/AuthProvider/AuthProvider';
 
 const App: React.FC = () => {
   return (
-    <Router>
-      <div className="app-container">
-      <Sidebar />
-        <main>
-          <Routes>
-            <Route path="/historico" element={<Historico />} />
-            <Route path="/campeonatos" element={<Campeonato />} />
-          </Routes>
-        </main>
-      </div>
-    </Router>
+<Router>
+  <AuthProvider>
+    <div className="container">
+      <main>
+        <Routes>
+          <Route path="/historico" element={<PrivateRoute element={<Historico />} />} />
+          <Route path="/campeonatos" element={<PrivateRoute element={<Campeonato />} />} />
+          <Route path="/login" element={<Login />} />
+        </Routes>
+      </main>
+    </div>
+  </AuthProvider>
+</Router>
   );
 };
 

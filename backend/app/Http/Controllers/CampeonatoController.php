@@ -14,8 +14,17 @@ class CampeonatoController extends Controller
 {
     public function index()
     {
-        $campeonatos = Campeonato::with(['jogos', 'jogos.timeCasa', 'jogos.timeVisitante', 'eliminacoes', 'eliminacoes.timeEliminado'])->get();
-    
+        $campeonatos = Campeonato::with([
+            'jogos' => function ($query) {
+                $query->whereIn('fase', ['Final', '3 Lugar']);
+            },
+            'jogos.timeCasa',
+            'jogos.timeVisitante',
+            'eliminacoes' => function ($query) {
+                $query->whereIn('posicao_eliminacao', ['Final', '3 Lugar']);
+            },
+            'eliminacoes.timeEliminado',
+        ])->get();    
         $campeonatoAtivo = Campeonato::whereDoesntHave('eliminacoes', function ($query) {
             $query->where('posicao_eliminacao', 'Final');
         })->with(['jogos', 'jogos.timeCasa', 'jogos.timeVisitante', 'eliminacoes', 'eliminacoes.timeEliminado'])->first();

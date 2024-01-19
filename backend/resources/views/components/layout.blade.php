@@ -13,6 +13,7 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container-fluid">
             <a href="{{ route('campeonato.index') }}" class="navbar-brand">Campeonato</a>
+            <a href="{{ route('time.index') }}" class="navbar-brand">Time</a>
             @auth
                 
             <a href="{{ route('logout') }}" class="navbar-brand">Sair</a>

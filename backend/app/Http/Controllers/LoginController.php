@@ -2,23 +2,41 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Auth\AuthenticationException;
+use Dotenv\Exception\ValidationException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
     
-    public function index(Request $request) {
-        return view('login.index');
-    }
+    public function login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
 
-    public function store(Request $request) {
-        if(!Auth::attempt($request->only(['email', 'password']))) {
-            throw new AuthenticationException('Credenciais inválidas');
+        $credentials = $request->only('email', 'password');
+
+        if (Auth::attempt($credentials)) {
+            $token = auth()->user()->createToken('API Token')->plainTextToken;
+            return response()->json(['token' => $token]);
         }
 
-        return redirect()->route('campeonato.index');
+        throw ValidationException::withMessages([
+            'email' => ['The provided credentials are incorrect.'],
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return response()->json(['message' => 'Logout successful']);
     }
 
 

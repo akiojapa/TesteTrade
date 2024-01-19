@@ -5,7 +5,7 @@
     flex-direction: column;
     background-color: #e0e5ec; /* Tom azulado claro */
     padding: 10px;
-    width: 100%;
+    width: 30%;
     height: 97.5vh; /* Altura de 100% da viewport */
     overflow: auto; /* Adicione overflow para permitir rolagem interna se necessário */
   }

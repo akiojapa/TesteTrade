@@ -13,17 +13,21 @@ class UsersController extends Controller
         return view('users.create');
     }
 
-    public function store(Request $request) {
+    public function store(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|unique:users,email',
+            'password' => 'required|string|min:8',
+        ]);
 
-        $data = $request->except(['_token']);
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
 
-        $data['password'] = Hash::make($data['password']);
-        $user = User::create($data);
-    
-        Auth::login($user);
-
-        return redirect()->route('campeonato.index');
-
+        return response()->json(['message' => 'User created successfully', 'user' => $user], 201);
     }
 
     public function destroy() {

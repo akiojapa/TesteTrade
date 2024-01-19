@@ -2,23 +2,48 @@ import React, { useEffect } from 'react';
 import { Time } from '../../../../types/Time';
 import './campeonato.css';
 import { Jogo } from '../../../../types/Jogo';
+import Loading from '../../../loading/Loading';
 
 const Campeonato: React.FC = () => {
+    const token = localStorage.getItem('token') ?? '';
 
     const [times, setTimes] = React.useState([])
     const [timesEscolhidos, setTimesEscolhidos] = React.useState<Time[]>([]);
     const [campeonato, setCampeonato] = React.useState({});
     const [isModalOpen, setIsModalOpen] = React.useState(false);
     const [time, setTime] = React.useState<Time>({} as Time);
+    const [loading, setLoading] = React.useState(false);
 
-    React.useEffect(() => {
-      fetch('http://localhost:8000/api/times/')
+    React.useEffect(() => { 
+
+      setLoading(true);
+
+      fetch('http://localhost:8000/api/times/', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+        }
+      
+      })
         .then(response => response.json())
         .then(data => setTimes(data));
   
-      fetch('http://localhost:8000/api/campeonatos/')
+      fetch('http://localhost:8000/api/campeonatos/', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Accept': 'application/json'
+        }
+      
+      
+      })
         .then(response => response.json())
-        .then(data => setCampeonato(data.campeonato_ativo));
+        .then(data => {
+          setCampeonato(data.campeonato_ativo)
+          setLoading(false)
+        });
+      
     }, []);
 
     useEffect(() => {
@@ -59,13 +84,16 @@ const Campeonato: React.FC = () => {
       }
   };
 
+
+
     const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
       try {
         const response = await fetch('http://localhost:8000/api/times', {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Accept': 'application/json'
           },
           body: JSON.stringify(time),
         });
@@ -80,8 +108,11 @@ const Campeonato: React.FC = () => {
       }
     };
 
+
+
   return (
     <div>
+      {loading ? <Loading /> :( <>
       <h2>Campeonato</h2>
       <p>Aqui será criado um campeonato</p>
       {!campeonato ? (
@@ -102,7 +133,7 @@ const Campeonato: React.FC = () => {
 
 </>) :(<>
 <h1>
-  {campeonato.nome_campeonato}
+  {'Campeonato ' + campeonato.nome_campeonato}
 </h1>
 </>)
       }
@@ -134,31 +165,29 @@ const Campeonato: React.FC = () => {
           <button onClick={handleCloseModal}>Fechar</button>
         </div>
       )}
-  <button className='m-4' disabled={timesEscolhidos.length !== 8} onClick={handleCriarCampeonato}>{!campeonato ? 'Criar campeonato' : 'SIMULAÇÃO'}</button>
+  {!campeonato && <button className='m-4' disabled={timesEscolhidos.length !== 8} onClick={handleCriarCampeonato}>{'Criar campeonato'}</button> }
   </div>
   <div className="container">
-    <h2>
-      Chaves
-    </h2>
-    <div className="row">
-    {campeonato?.jogos.map((jogo: Jogo) => (
-    <div key={jogo.id_jogo} className="card m-2">
-      <div className="card-body">
-        <h5 className="card-title">Jogo #{jogo.id_jogo}</h5>
-        <p className="card-text">
-          {jogo.time_casa.nome_time} vs {jogo.time_visitante.nome_time}
-        </p>
-        <p className="card-text">Data do Jogo: {jogo.data_jogo}</p>
-        {/* Adicione outros detalhes do jogo conforme necessário */}
+  <h2>Chaves</h2>
+  <div className="row">
+    {campeonato?.jogos?.map((jogo: Jogo, index) => (
+      <div key={jogo.id_jogo} className="card">
+        <div className="card-body">
+          <h5 className="card-title">Jogo #{jogo.id_jogo}</h5>
+          <p className="card-text">
+            {jogo.time_casa.nome_time} vs {jogo.time_visitante.nome_time}
+          </p>
+          <p className="card-text">Data do Jogo: {jogo.data_jogo}</p>
+          <button className="btn btn-primary">Simular</button>
+        </div>
+        {index < campeonato.jogos.length - 1 && <div className="connector"></div>}
       </div>
-    </div>
-))}
-
-    </div>
-
+    ))}
   </div>
-  
-    </div>
+</div>
+</>
+)}
+</div>
   
 
 
