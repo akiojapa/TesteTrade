@@ -26,4 +26,3 @@ Route::resource('campeonatos', CampeonatoController::class);
 Route::resource('times', TimeController::class);
 Route::resource('jogos', JogoController::class);
 Route::resource('eliminacoes', EliminacaoController::class);
-Route::get('campeonatos/{id}/detalhes', [CampeonatoController::class, 'getDetails']);

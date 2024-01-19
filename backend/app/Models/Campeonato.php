@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Model;
 class Campeonato extends Model
 {
     use HasFactory;    
+
+    protected $fillable = ['nome_campeonato', 'ano_campeonato'];
     
     protected $table = 'campeonatos';
     protected $primaryKey = 'id_campeonato';

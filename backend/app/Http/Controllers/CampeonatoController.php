@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CampeonatoFormRequest;
 use App\Models\Campeonato;
+use App\Models\Jogo;
 use App\Models\Time;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Http\Request;
@@ -14,7 +15,20 @@ class CampeonatoController extends Controller
     public function index()
     {
         $campeonatos = Campeonato::with(['jogos', 'jogos.timeCasa', 'jogos.timeVisitante', 'eliminacoes', 'eliminacoes.timeEliminado'])->get();
-        return response()->json($campeonatos);
+    
+        $campeonatoAtivo = Campeonato::whereDoesntHave('eliminacoes', function ($query) {
+            $query->where('posicao_eliminacao', 'Final');
+        })->with(['jogos', 'jogos.timeCasa', 'jogos.timeVisitante', 'eliminacoes', 'eliminacoes.timeEliminado'])->first();
+
+        $campeonatos = $campeonatos->filter(function ($campeonato) use ($campeonatoAtivo) {
+            return $campeonato->id_campeonato != $campeonatoAtivo->id_campeonato;
+        });
+
+    
+        return response()->json([
+            'campeonatos' => $campeonatos->values(),
+            'campeonato_ativo' => $campeonatoAtivo,
+        ]);
     }
 
     public function show($id)
@@ -25,8 +39,16 @@ class CampeonatoController extends Controller
 
     public function store(Request $request)
     {
-        $campeonato = Campeonato::create($request->all());
-        return response()->json($campeonato, 201);
+        $times = $request->all();
+    
+        $campeonato = Campeonato::create([
+            'nome_campeonato' => '#' . (Campeonato::count() + 1),
+            'ano_campeonato' => date('Y'),
+        ]);
+    
+        $this->criarQuartasDeFinais($campeonato, $times);
+    
+        return response()->json(['mensagem' => 'Campeonato criado com sucesso']);
     }
 
     public function update(Request $request, $id)
@@ -43,11 +65,34 @@ class CampeonatoController extends Controller
         return response()->json(null, 204);
     }
 
-    public function getDetails($id){
+    private function criarQuartasDeFinais(Campeonato $campeonato, array $times)
+    {
+        shuffle($times);
+    
+        $jogos = [];
+        for ($i = 0; $i < count($times); $i += 2) {
+            $jogo = new Jogo([
+                'id_time_casa' => $times[$i]['id_time'],
+                'id_time_visitante' => $times[$i + 1]['id_time'],
+                'gols_time_casa' => 0,
+                'gols_time_visitante' => 0,
+                'fase' => 'Quartas de Final',
+                'data_jogo' => now(),
+            ]);
+    
+            $jogos[] = $jogo;
+        }
+    
+        $campeonato->jogos()->saveMany($jogos);
+    }
 
-        $campeonato = Campeonato::with('jogos.time', 'eliminacoes')->find($id);
+        public function obterCampeonatoEmAtividade()
+    {
+        $campeonato = Campeonato::whereDoesntHave('eliminacoes', function ($query) {
+            $query->where('posicao_eliminacao', 'Final');
+        })->with(['jogos', 'jogos.timeCasa', 'jogos.timeVisitante', 'eliminacoes', 'eliminacoes.timeEliminado'])->first();
+
         return response()->json($campeonato);
-
     }
 
 }

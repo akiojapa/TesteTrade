@@ -2,9 +2,11 @@
 
 import React from 'react';
 import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Sidebar from './components/sidebar/Sidebar';
 import Historico from './components/sidebar/pages/historico/Historico';
+import Campeonato from './components/sidebar/pages/campeonato/Campeonato';
 
 const App: React.FC = () => {
   return (
@@ -14,7 +16,7 @@ const App: React.FC = () => {
         <main>
           <Routes>
             <Route path="/historico" element={<Historico />} />
-            <Route path="/campeonatos" element={<h2>Página Inicial</h2>} />
+            <Route path="/campeonatos" element={<Campeonato />} />
           </Routes>
         </main>
       </div>

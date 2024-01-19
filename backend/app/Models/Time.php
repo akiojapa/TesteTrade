@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Time extends Model
 {
+    protected $fillable = ['nome_time', 'pais', 'liga', 'temporada', 'data_inscricao'];
+
     protected $table = 'times';
     protected $primaryKey = 'id_time';
     public $timestamps = false;

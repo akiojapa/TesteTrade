@@ -1,0 +1,13 @@
+.tabela-historico {
+    margin: 20px;
+  }
+  
+  .tabela {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .linha-campeonato {
+    border-bottom: 1px solid #ddd;
+  }
+  
