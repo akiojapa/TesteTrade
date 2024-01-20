@@ -14,8 +14,8 @@ Instale os requisitos abaixo e siga as Instruções para executar o Projeto.
 - <a href=https://git-scm.com/download>Git</a>
 - <a href=https://getcomposer.org/download/> Compose </a>
 - <a href=https://www.npmjs.com/package/npm> NPM </a>
-- <a href=https://www.apachefriends.org/download.html> Xampp/apache </a>
-- <a href=https://
+- <a href=https://www.apachefriends.org/download.html> Apache </a>
+- <a href=https://https://insomnia.rest/download> Insomnia </a>
 
 
 ## Status do projeto 
