@@ -16,14 +16,19 @@ const Campeonato: React.FC = () => {
 
     React.useEffect(() => { 
 
-      setLoading(true);
+      get()
+      }, []);
 
-      fetch('http://localhost:8000/api/times/', {
-        method: 'GET',
-        headers: {
+      function get() {
+
+        setLoading(true);
+
+        fetch('http://localhost:8000/api/times/', {
+          method: 'GET',
+          headers: {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
-        }
+          }
       
       })
         .then(response => response.json())
@@ -35,16 +40,31 @@ const Campeonato: React.FC = () => {
             'Authorization': `Bearer ${token}`,
             'Accept': 'application/json'
         }
-      
-      
+        
+        
       })
-        .then(response => response.json())
-        .then(data => {
+      .then(response => response.json())
+      .then(data => {
           setCampeonato(data.campeonato_ativo)
           setLoading(false)
+
         });
-      
-    }, []);
+        
+      }
+
+      function TerceiroLugar(jogo: Jogo) {
+
+        const existeEliminado = campeonato?.eliminacoes?.find(e => e.id_jogo === jogo.id_jogo)?.posicao_eliminacao === '3 Lugar';
+
+        if (!existeEliminado && jogo.fase === '3 Lugar') {
+          return false;
+        }
+        else {
+          return true;
+        }
+
+
+      }
 
     useEffect(() => {
       console.log(campeonato)
@@ -72,17 +92,46 @@ const Campeonato: React.FC = () => {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+                  'Authorization': `Bearer ${token}`,
               },
               body: JSON.stringify(timesEscolhidos),
           });
   
           const data = await response.json();
+          console.log(data);
   
-          console.log(data.mensagem); // Mensagem da API
+          get()
       } catch (error) {
           console.error('Erro ao criar campeonato:', error);
       }
   };
+
+  const handleSimulate = async (id: number) => {
+
+    try {
+      const response = await fetch(`http://localhost:8000/api/jogos/${id}/simulate`, {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+              'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+          },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log(data.mensagem); // Mensagem da API
+        get();
+      } else {
+        console.error('Erro ao simular o jogo');
+      }
+    } catch (error) {
+      console.error('Erro ao simular o jogo:', error);
+    }
+    
+
+  }
 
 
 
@@ -99,7 +148,7 @@ const Campeonato: React.FC = () => {
         });
   
         if (response.ok) {
-          console.log('Time criado com sucesso!');
+          get();
         } else {
           console.error('Erro ao criar o time');
         }
@@ -177,10 +226,10 @@ const Campeonato: React.FC = () => {
           <p className="card-text">
             {jogo.time_casa.nome_time} vs {jogo.time_visitante.nome_time}
           </p>
+          <p className="card-text">Fase: {jogo.fase}</p>          
           <p className="card-text">Data do Jogo: {jogo.data_jogo}</p>
-          <button className="btn btn-primary">Simular</button>
+          <button disabled={(campeonato.eliminacoes.find(e => e.id_time_eliminado === jogo.id_time_casa || e.id_time_eliminado === jogo.id_time_visitante)) && TerceiroLugar(jogo)} onClick={() => handleSimulate(jogo.id_jogo) } className="btn btn-primary">Simular</button>
         </div>
-        {index < campeonato.jogos.length - 1 && <div className="connector"></div>}
       </div>
     ))}
   </div>

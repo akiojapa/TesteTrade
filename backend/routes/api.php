@@ -31,6 +31,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::resource('times', TimeController::class);
     Route::resource('jogos', JogoController::class);
     Route::resource('eliminacoes', EliminacaoController::class);
+    Route::post('jogos/{id}/simulate', [JogoController::class, 'simulate']);
+
 });
 
 Route::post('/login', [LoginController::class, 'login']);
