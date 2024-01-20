@@ -3,7 +3,7 @@
 import { Campeonato } from "../../../types/Campeonato";
 
 interface DetalhesCampeonatoProps {
-    campeonato: Campeonato; // Certifique-se de importar a interface Campeonato
+    campeonato: Campeonato; 
   }
   
   const DetalhesCampeonato: React.FC<DetalhesCampeonatoProps> = ({ campeonato }) => {

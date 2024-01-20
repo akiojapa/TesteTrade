@@ -16,7 +16,7 @@ const TabelaHistorico: React.FC<TabelaHistoricoProps> = ({ campeonatos }) => {
 
 
     useEffect(() => {
-        console.log(campeonatos)
+        (campeonatos)
     },[campeonatos])
 
     return (

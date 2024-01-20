@@ -4,10 +4,8 @@ const LogoutButton = () => {
   const navigate = useNavigate();
 
   const handleLogout = () => {
-    // Remova o token de autenticação
     localStorage.removeItem('token');
 
-    // Redirecione o usuário para a página de login
     navigate('/login');
   };
 

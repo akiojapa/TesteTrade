@@ -67,7 +67,7 @@ const Campeonato: React.FC = () => {
       }
 
     useEffect(() => {
-      console.log(campeonato)
+      (campeonato)
     },[campeonato])
 
     const handleCheckboxChange = (time: Time, isChecked: boolean) => {
@@ -99,7 +99,7 @@ const Campeonato: React.FC = () => {
           });
   
           const data = await response.json();
-          console.log(data);
+          (data);
   
           get()
       } catch (error) {
@@ -121,7 +121,7 @@ const Campeonato: React.FC = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data.mensagem); // Mensagem da API
+        (data.mensagem); // Mensagem da API
         get();
       } else {
         console.error('Erro ao simular o jogo');

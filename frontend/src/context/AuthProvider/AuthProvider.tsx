@@ -16,7 +16,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(false);
 
   useEffect(() => {
-    // Verificar se o token está presente no localStorage
     const token = localStorage.getItem('token');
     setIsAuthenticated(!!token);
   }, []);

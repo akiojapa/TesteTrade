@@ -22,14 +22,11 @@ const Login: React.FC = () => {
   
       if (response.ok) {
         const data = await response.json();
-        // Armazene o token onde for necessário (por exemplo, em um estado global ou localStorage)
-        console.log('Token de acesso:', data.token);
+        ('Token de acesso:', data.token);
         localStorage.setItem('token', data.token);
 
         navigate('/historico')
-        // Redirecione para a próxima página ou faça o que for necessário após o login
       } else {
-        // Trate erros de autenticação aqui
         console.error('Erro de autenticação:', response.status);
       }
     } catch (error) {
